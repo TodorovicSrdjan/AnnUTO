@@ -1,2 +1,2 @@
 # annutomated
-Automated feed-forward artificial nerual network
+Automated feed-forward artificial neural network
