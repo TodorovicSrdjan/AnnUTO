@@ -43,7 +43,7 @@ app.include_router(traning_router.router)
 
 if __name__ == "__main__":   
     if len(sys.argv) > 1 and sys.argv[1] == 'dev':
-        uvicorn.run("ann_server:app", host=config.HOST_NAME, port=config.SERVER_PORT, reload=True, workers=4, debug=True)  
+        uvicorn.run("ann_server:app", host=config.HOST_NAME, port=config.SERVER_PORT, reload=True, workers=4)  
     else:
         logging.basicConfig(stream=sys.stdout, level=logging.NOTSET)
 
