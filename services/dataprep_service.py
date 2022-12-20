@@ -59,7 +59,7 @@ def parse_dataset(
             
         colTypesList = get_column_types(df)
 
-        #df = df.fillna(np.NaN) # TODO proveriti
+        #df = df.fillna(np.NaN) # TODO check
         df = df.replace(np.nan, None)
 
         log('Parsing completed.')
@@ -117,7 +117,7 @@ def modify_dataset(dataset, modified_data:ModifiedData):
         raise HTTPException(status_code=400, detail="Error on modifying data")
     
 
-    dataset['parsedDataset'] = json.loads(df.to_json(orient="split"))  # TODO proveriti da li moze da se odradi jednostavnije
+    dataset['parsedDataset'] = json.loads(df.to_json(orient="split"))  # TODO check if this can be simplified
     dataset['basicInfo'] = get_basic_info(df)
     dataset['missingValues'] = get_missing_values_for_each_column(df)
 
@@ -170,7 +170,7 @@ def fill_missing(
 
         df[column_name].fillna(fill_value, inplace = True)
             
-    dataset['parsedDataset'] = json.loads(df.to_json(orient="split"))  # TODO proveriti da li moze da se odradi jednostavnije   
+    dataset['parsedDataset'] = json.loads(df.to_json(orient="split"))  # TODO check if this can be simplified
     dataset['basicInfo'] = get_basic_info(df)
     dataset['missingValues'] = get_missing_values_for_each_column(df)
 

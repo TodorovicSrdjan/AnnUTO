@@ -25,10 +25,10 @@ socket_message = {
 
 def log(output, title='', use_print=False, prefix=config.PRINT_PREFIX, ignore_env=False):
     '''
-    Ispisuje prosledjeni objekat. Ukoliko je instanca stringa na njega dodaje prefiks PRINT_PREFIX i onda sve zajedno ispise, 
-    dok u suprotnom samo ispisuje prosledjeni objekat
+    Print passed object. If the object is a string instance then content of variable PRINT_PREFIX is appended and
+    crafted string is printed. Otherwise, 
 
-    **Ispis se vrsi samo u development modu**
+    **By default, `print` is used as log function in development environment**
     '''
 
     logger = LOGGER.info
@@ -73,7 +73,7 @@ def run_async(func, *args, **kwargs):
 
 def figure_to_uri(figure, ext='png'):
     '''
-    Za prosledjenu matplot figuru vraca uri base64 encoded slike.
+    For given matplot figure return URI of base64 encoded image.
     '''
     buf = io.BytesIO()
     figure.savefig(buf, format=ext)

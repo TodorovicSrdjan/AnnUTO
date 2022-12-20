@@ -8,8 +8,10 @@ from routers import dataprep_router, datastat_router, traning_router
 
 #################################################################
 
+title = "ANN microservice"
+
 description = """
-Mikroservis za Artifical Neural Network playground web platformu
+Microservice for Artifical Neural Network playground
 
 ## Data Preparation
 
@@ -28,7 +30,7 @@ tags_metadata = [
 ]
 
 app = FastAPI(#__name__, 
-    title="ANN mikroservice",
+    title=title,
     description=description
     )
 

@@ -22,7 +22,7 @@ async def get_parsed_dataset(
     encoding       : Optional[str] = None,
     ):
     '''
-    Parsira dataset koji se nalazi na prosleđenom linku **dataset_source**. 
+    Parse remote (file whose url is provided) **dataset_source** to internal format (json).
 
     '''
 
@@ -53,7 +53,7 @@ async def parse_dataset_file(
     encoding       : Optional[str] = None,
     ):
     '''
-    Parsira dataset **dataset_source** koji je upload-ovan.
+    Parse uploaded **dataset_source** to internal format (json).
 
     '''
     df, column_types  = parse_dataset(
@@ -76,7 +76,7 @@ async def parse_dataset_file(
 @router.put("/modify")
 async def modify(stored_dataset : str, modified_data : ModifiedData):
     '''
-    Na osnovu liste akcija vrsi izmenu vrednosti, brisanje reda ili kolone u prosledjenom fajlu
+    Modify rows or colums of passed dataset based on modify actions for each row or column.
     '''
 
     dataset = read_json_data(stored_dataset)
@@ -93,7 +93,7 @@ async def fill_missing_values(
     column_fill_method_pairs : List[ColumnFillMethodPair] = Body(...)
     ):
     '''
-    Popunjava prazna polja u dataset-u koristeci odabrani metod
+    Fill in empty fields in passed dataset by making use of chosen method
     '''
     
     dataset = read_json_data(stored_dataset)
