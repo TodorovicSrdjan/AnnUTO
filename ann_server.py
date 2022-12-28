@@ -4,7 +4,7 @@ import logging
 from fastapi import FastAPI
 
 import config
-from routers import dataprep_router, datastat_router, traning_router
+from routers import dataprep, datastat, traning
 
 #################################################################
 
@@ -37,9 +37,9 @@ app = FastAPI(#__name__,
 #################################################################
 # Routers
 
-app.include_router(dataprep_router.router)
-app.include_router(datastat_router.router)
-app.include_router(traning_router.router)
+app.include_router(dataprep.router)
+app.include_router(datastat.router)
+app.include_router(traning.router)
 
 #################################################################
 

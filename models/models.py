@@ -3,9 +3,9 @@ from enum import Enum
 from typing import List
 from pydantic import BaseModel
 
-from helpers.activation_func_helper import ActivationFunction
-from helpers.weight_init_helper import WeightInitializer
-from helpers.encoder_helper import CatColEncoder
+from helpers.activation_func import ActivationFunction
+from helpers.weight_init import WeightInitializer
+from helpers.encoder import CatColEncoder
 
 #################################################################
 
