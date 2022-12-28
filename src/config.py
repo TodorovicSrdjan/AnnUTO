@@ -1,0 +1,8 @@
+HOST_NAME = "localhost" # TODO
+SERVER_PORT = 10003 # TODO
+BACKEND_BASE_ADDRESS = "localhost:10004" # TODO
+BACKEND_WEB_SOCKET_URI = f'ws://{BACKEND_BASE_ADDRESS}/ws'
+
+PRINT_PREFIX = "(script)     "
+
+ENVIRONMENT = 'production'
