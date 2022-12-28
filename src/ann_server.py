@@ -43,9 +43,12 @@ app.include_router(traning.router)
 
 #################################################################
 
-if __name__ == "__main__":   
-    if len(sys.argv) > 1 and sys.argv[1] == 'dev':
-        uvicorn.run("ann_server:app", host=config.HOST_NAME, port=config.SERVER_PORT, reload=True, workers=4)  
+def main(): 
+    if len(sys.argv) > 1 and sys.argv[1] == 'prod':
+        logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+        uvicorn.run("ann_server:app", host=config.HOST_NAME, port=config.SERVER_PORT, workers=4) 
     else:
-        logging.basicConfig(stream=sys.stdout, level=logging.NOTSET)
+        uvicorn.run("ann_server:app", host=config.HOST_NAME, port=config.SERVER_PORT, reload=True)  
 
+if __name__ == "__main__":   
+    main()
