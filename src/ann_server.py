@@ -29,6 +29,7 @@ app.include_router(traning.router)
 def main(): 
 
     if len(sys.argv) > 1 and sys.argv[1] == 'prod':
+        config.ENVIRONMENT = 'production'
         logger.setLevel(config.LOG_LVL_PROD)
         uvicorn.run("ann_server:app", host=config.HOST_NAME, port=config.SERVER_PORT, workers=4) 
     else:

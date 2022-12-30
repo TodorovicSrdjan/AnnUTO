@@ -9,4 +9,4 @@ LOG_LVL_DEV = logging.DEBUG
 LOG_LVL_PROD = logging.INFO
 LOG_CONFIG_PATH = 'src/config/logging.conf'
 
-ENVIRONMENT = 'production'
+ENVIRONMENT = 'development'
