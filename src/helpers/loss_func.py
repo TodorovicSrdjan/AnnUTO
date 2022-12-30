@@ -4,21 +4,21 @@ import tensorflow as tf
 import logging
 
 class LossFunction(str, Enum):
-    BinaryCrossentropy            = "BinaryCrossentropy"
-    BinaryFocalCrossentropy       = "BinaryFocalCrossentropy"
-    CategoricalCrossentropy       = "CategoricalCrossentropy"
-    CategoricalHinge              = "CategoricalHinge"
-    CosineSimilarity              = "CosineSimilarity"
-    Hinge                         = "Hinge"
-    Huber                         = "Huber"
-    KLDivergence                  = "KLDivergence"
-    MeanAbsoluteError             = "MeanAbsoluteError"
-    MeanAbsolutePercentageError   = "MeanAbsolutePercentageError"
-    MeanSquaredError              = "MeanSquaredError"
-    MeanSquaredLogarithmicError   = "MeanSquaredLogarithmicError"
-    #Poisson                       = "Poisson"
-    #SparseCategoricalCrossentropy = "SparseCategoricalCrossentropy"
-    SquaredHinge                  = "SquaredHinge"
+    BinaryCrossentropy            = 'BinaryCrossentropy'
+    BinaryFocalCrossentropy       = 'BinaryFocalCrossentropy'
+    CategoricalCrossentropy       = 'CategoricalCrossentropy'
+    CategoricalHinge              = 'CategoricalHinge'
+    CosineSimilarity              = 'CosineSimilarity'
+    Hinge                         = 'Hinge'
+    Huber                         = 'Huber'
+    KLDivergence                  = 'KLDivergence'
+    MeanAbsoluteError             = 'MeanAbsoluteError'
+    MeanAbsolutePercentageError   = 'MeanAbsolutePercentageError'
+    MeanSquaredError              = 'MeanSquaredError'
+    MeanSquaredLogarithmicError   = 'MeanSquaredLogarithmicError'
+    #Poisson                       = 'Poisson'
+    #SparseCategoricalCrossentropy = 'SparseCategoricalCrossentropy'
+    SquaredHinge                  = 'SquaredHinge'
 
     def __repr__(self):
         return self.value
@@ -45,5 +45,5 @@ def map_loss_function(loss_func):
     try:         
         return loss_func_switcher.get(loss_func)
     except (KeyError, AttributeError):
-        logging.exception(f'Key "{loss_func}" is not present in loss_func_switcher dictionary')
-        raise HTTPException(status_code=400, detail=f'Loss function "{loss_func}" is not supported')
+        logging.exception(f"Key '{loss_func}' is not present in loss_func_switcher dictionary")
+        raise HTTPException(status_code=400, detail=f"Loss function '{loss_func}' is not supported")

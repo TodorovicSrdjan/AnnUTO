@@ -31,10 +31,10 @@ def main():
     if len(sys.argv) > 1 and sys.argv[1] == 'prod':
         config.ENVIRONMENT = 'production'
         logger.setLevel(config.LOG_LVL_PROD)
-        uvicorn.run("ann_server:app", host=config.HOST_NAME, port=config.SERVER_PORT, workers=4) 
+        uvicorn.run('ann_server:app', host=config.HOST_NAME, port=config.SERVER_PORT, workers=4) 
     else:
         logger.setLevel(config.LOG_LVL_DEV)
-        uvicorn.run("ann_server:app", host=config.HOST_NAME, port=config.SERVER_PORT, reload=True)  
+        uvicorn.run('ann_server:app', host=config.HOST_NAME, port=config.SERVER_PORT, reload=True)  
 
-if __name__ == "__main__":   
+if __name__ == '__main__':   
     main()

@@ -40,7 +40,7 @@ def parse_dataset(
     fname = fname.lower()
 
     if( fname.endswith('.csv') ):
-        logging.info("Given dataset appears to be .csv file")
+        logging.info('Given dataset appears to be .csv file')
 
         if is_file:
             dataset_source = dataset_source.file
@@ -69,10 +69,10 @@ def parse_dataset(
 # # #
 
 def get_basic_info(df):
-    missingValuesEntireDF = int(df.isnull().sum().sum()) #df.value_counts()["NaN"]
+    missingValuesEntireDF = int(df.isnull().sum().sum()) #df.value_counts()['NaN']
     nrows, ncols = df.shape
 
-    return { "row count" : nrows, "column count" : ncols, "missing values count" : missingValuesEntireDF }
+    return { 'row count' : nrows, 'column count' : ncols, 'missing values count' : missingValuesEntireDF }
 
 # # #
 
@@ -101,11 +101,11 @@ def modify_dataset(dataset, modified_data:ModifiedData):
     try:
         for editRow in modified_data.edited:
             dtype = next(iter(types[editRow.col].values()))
-            if (editRow.value == ""):
+            if (editRow.value == ''):
                 df.iloc[editRow.row, editRow.col] = np.nan
-            elif (dtype == "int64"):
+            elif (dtype == 'int64'):
                 df.iloc[editRow.row, editRow.col] = int(editRow.value)
-            elif (dtype == "float64"):
+            elif (dtype == 'float64'):
                 df.iloc[editRow.row, editRow.col] = float(editRow.value)
             else:
                 df.iloc[editRow.row, editRow.col] = editRow.value
@@ -114,10 +114,10 @@ def modify_dataset(dataset, modified_data:ModifiedData):
         df.drop(df.columns[modified_data.deletedCols],axis=1,inplace=True)
 
     except:
-        raise HTTPException(status_code=400, detail="Error on modifying data")
+        raise HTTPException(status_code=400, detail='Error on modifying data')
     
 
-    dataset['parsedDataset'] = json.loads(df.to_json(orient="split"))  # TODO check if this can be simplified
+    dataset['parsedDataset'] = json.loads(df.to_json(orient='split'))  # TODO check if this can be simplified
     dataset['basicInfo'] = get_basic_info(df)
     dataset['missingValues'] = get_missing_values_for_each_column(df)
 
@@ -166,11 +166,11 @@ def fill_missing(
             fill_value = column_fill_method.str_value
             pass
         else:
-            raise HTTPException(status_code=400, detail=f"Unknown fill method for handling missing value: {fill_method}")
+            raise HTTPException(status_code=400, detail=f'Unknown fill method for handling missing value: {fill_method}')
 
         df[column_name].fillna(fill_value, inplace = True)
             
-    dataset['parsedDataset'] = json.loads(df.to_json(orient="split"))  # TODO check if this can be simplified
+    dataset['parsedDataset'] = json.loads(df.to_json(orient='split'))  # TODO check if this can be simplified
     dataset['basicInfo'] = get_basic_info(df)
     dataset['missingValues'] = get_missing_values_for_each_column(df)
 

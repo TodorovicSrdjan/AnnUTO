@@ -8,11 +8,11 @@ from services.shared import read_json_data
 
 #################################################################
 
-router = APIRouter(prefix="/dataset")
+router = APIRouter(prefix='/dataset')
 
 #################################################################
 
-@router.get("/stat-indicators")
+@router.get('/stat-indicators')
 async def get_statistical_indicators(stored_dataset : str):
     dataset = read_json_data(stored_dataset)['parsedDataset']
     dataset['index_names'] = [None]
@@ -23,7 +23,7 @@ async def get_statistical_indicators(stored_dataset : str):
 
 # # #
 
-@router.get("/corr-matrix")
+@router.get('/corr-matrix')
 async def get_correlation_matrix(stored_dataset : str):
     dataset = read_json_data(stored_dataset)['parsedDataset']
     dataset['index_names'] = [None]

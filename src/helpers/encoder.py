@@ -5,10 +5,10 @@ import category_encoders as ce
 import logging
 
 class CatColEncoder(str, Enum):
-    NoEncoder = "None"
-    OneHot   = "OneHot"
-    Ordinal  = "Ordinal"
-    Binary    = "Binary" 
+    NoEncoder = 'None'
+    OneHot   = 'OneHot'
+    Ordinal  = 'Ordinal'
+    Binary    = 'Binary' 
     
     def __repr__(self):
         return self.value
@@ -23,5 +23,5 @@ def map_catcolencoder(catcolencoder):
     try:         
         return catcolencoder_switcher.get(catcolencoder)
     except (KeyError, AttributeError):
-        logging.exception(f'Key "{catcolencoder}" is not present in catcolencoder_switcher dictionary')
-        raise HTTPException(status_code=400, detail=f'Categorical colum encoder "{catcolencoder}" is not supported')
+        logging.exception(f"Key '{catcolencoder}' is not present in catcolencoder_switcher dictionary")
+        raise HTTPException(status_code=400, detail=f"Categorical colum encoder '{catcolencoder}' is not supported")

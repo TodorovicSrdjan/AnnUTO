@@ -4,20 +4,20 @@ import tensorflow as tf
 import logging
 
 class WeightInitializer(str, Enum):
-    Constant        = "Constant",
-    GlorotNormal    = "GlorotNormal",
-    GlorotUniform   = "GlorotUniform",
-    HeNormal        = "HeNormal",
-    HeUniform       = "HeUniform",
-    Identity        = "Identity",
-    LecunNormal     = "LecunNormal",
-    LecunUniform    = "LecunUniform",
-    Ones            = "Ones",
-    Orthogonal      = "Orthogonal",
-    RandomNormal    = "RandomNormal",
-    RandomUniform   = "RandomUniform",
-    TruncatedNormal = "TruncatedNormal",
-    Zeros           = "Zeros"
+    Constant        = 'Constant',
+    GlorotNormal    = 'GlorotNormal',
+    GlorotUniform   = 'GlorotUniform',
+    HeNormal        = 'HeNormal',
+    HeUniform       = 'HeUniform',
+    Identity        = 'Identity',
+    LecunNormal     = 'LecunNormal',
+    LecunUniform    = 'LecunUniform',
+    Ones            = 'Ones',
+    Orthogonal      = 'Orthogonal',
+    RandomNormal    = 'RandomNormal',
+    RandomUniform   = 'RandomUniform',
+    TruncatedNormal = 'TruncatedNormal',
+    Zeros           = 'Zeros'
 
     def __repr__(self):
         return self.value
@@ -43,5 +43,5 @@ def map_weight_init(weight_init):
     try:         
         return weight_init_switcher.get(weight_init)
     except (KeyError, AttributeError):
-        logging.exception(f'Key "{weight_init}" is not present in weight_init_switcher dictionary')
-        raise HTTPException(status_code=400, detail=f'Optimizer "{weight_init}" is not supported')
+        logging.exception(f"Key '{weight_init}' is not present in weight_init_switcher dictionary")
+        raise HTTPException(status_code=400, detail=f"Optimizer '{weight_init}' is not supported")

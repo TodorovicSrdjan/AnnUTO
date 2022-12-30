@@ -8,8 +8,8 @@ from services.shared import figure_to_uri
 
 #################################################################
 
-CAT_INDEXES = ["Count","Unique","Top","Frequency"]
-CONT_INDEXES = ["Count","Mean","Standard deviation","Minimum","25th percentile","50th percentile","75th percentile","Max"]
+CAT_INDEXES = ['Count','Unique','Top','Frequency']
+CONT_INDEXES = ['Count','Mean','Standard deviation','Minimum','25th percentile','50th percentile','75th percentile','Max']
 
 #################################################################
 
@@ -18,7 +18,7 @@ def get_stat_indicators(df):
     #columns with numeric values
     continuous = df.select_dtypes(include='number')
 
-    logging.debug("continuous:\n" + str(continuous))
+    logging.debug('continuous:\n' + str(continuous))
 
     if len(continuous.columns) > 0:
         continuous_described = continuous.describe().T.to_dict('split')
@@ -32,7 +32,7 @@ def get_stat_indicators(df):
     else:
         continuous_described = []
 
-    logging.debug("continuous_described:\n" + str(continuous_described))
+    logging.debug('continuous_described:\n' + str(continuous_described))
 
     #columns with non-numeric values
     categorical = df.select_dtypes(exclude='number')
@@ -46,12 +46,12 @@ def get_stat_indicators(df):
     else:
         categorical_described = []
     
-    logging.debug("categorical_described:\n" + str(categorical_described))
+    logging.debug('categorical_described:\n' + str(categorical_described))
 
     stat_indicators = {}
 
-    stat_indicators["continuous"] = continuous_described
-    stat_indicators["categorical"] = categorical_described
+    stat_indicators['continuous'] = continuous_described
+    stat_indicators['categorical'] = categorical_described
 
     return stat_indicators
 
@@ -61,7 +61,7 @@ def get_corr_matrix(df, diagonal=False):
     mask = None
     corr = df.corr()
 
-    sns.set_theme(style="white")
+    sns.set_theme(style='white')
     #sns.set(font_scale=0.5)
     
     if diagonal:
@@ -75,11 +75,11 @@ def get_corr_matrix(df, diagonal=False):
     figure.set_tight_layout(True)
 
     # Generate a custom diverging colormap
-    cmap = "Spectral" #sns.diverging_palette(230, 20, as_cmap=True)
+    cmap = 'Spectral' #sns.diverging_palette(230, 20, as_cmap=True)
 
     # Draw the heatmap with the mask and correct aspect ratio
     heatmap = sns.heatmap(corr, mask=mask, cmap=cmap, center=0, annot=True,
-        square=True, linewidths=.5, cbar_kws={"shrink": 1}, fmt='.5f')
+        square=True, linewidths=.5, cbar_kws={'shrink': 1}, fmt='.5f')
 
     uri = figure_to_uri(figure)
 

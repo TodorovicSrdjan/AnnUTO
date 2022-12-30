@@ -5,19 +5,19 @@ import logging
 
 class ActivationFunction(str, Enum):
     #NoActivationfunction = None
-    Elu                  = "Elu"
-    Exponential          = "Exponential"
-    GeLu                 = "GeLu"
-    HardSigmoid          = "HardSigmoid"
-    Linear               = "Linear"
-    ReLu                 = "ReLu"
-    SeLu                 = "SeLu"
-    Sigmoid              = "Sigmoid"
-    Softmax              = "Softmax"
-    Softplus             = "Softplus"
-    Softsign             = "Softsign"
-    Swish                = "Swish"
-    Tanh                 = "Tanh"
+    Elu                  = 'Elu'
+    Exponential          = 'Exponential'
+    GeLu                 = 'GeLu'
+    HardSigmoid          = 'HardSigmoid'
+    Linear               = 'Linear'
+    ReLu                 = 'ReLu'
+    SeLu                 = 'SeLu'
+    Sigmoid              = 'Sigmoid'
+    Softmax              = 'Softmax'
+    Softplus             = 'Softplus'
+    Softsign             = 'Softsign'
+    Swish                = 'Swish'
+    Tanh                 = 'Tanh'
 
     def __repr__(self):
         return self.value
@@ -42,5 +42,5 @@ def map_activation_function(activation_func):
     try:         
         return activation_func_switcher.get(activation_func)
     except (KeyError, AttributeError):
-        logging.exception(f'Key "{activation_func}" is not present in activation_func_switcher dictionary')
-        raise HTTPException(status_code=400, detail=f'Activation function "{activation_func}" is not supported')
+        logging.exception(f"Key '{activation_func}' is not present in activation_func_switcher dictionary")
+        raise HTTPException(status_code=400, detail=f"Activation function '{activation_func}' is not supported")

@@ -8,11 +8,11 @@ from services.dataprep import get_missing_values_for_each_column, parse_dataset,
 
 #################################################################
 
-router = APIRouter(prefix="/data-preparation")
+router = APIRouter(prefix='/data-preparation')
 
 #################################################################
 
-@router.get("/parse")
+@router.get('/parse')
 async def get_parsed_dataset(
     dataset_source : AnyHttpUrl,
     delimiter      : Optional[str] = None,
@@ -38,11 +38,11 @@ async def get_parsed_dataset(
     basic_info = get_basic_info(df)
     missing_for_each_column = get_missing_values_for_each_column(df)
 
-    return {'parsedDataset' : parsed_dataset, "columnTypes" : column_types, "basicInfo" : basic_info, "missingValues" : missing_for_each_column }
+    return {'parsedDataset' : parsed_dataset, 'columnTypes' : column_types, 'basicInfo' : basic_info, 'missingValues' : missing_for_each_column }
 
 # # #
 
-@router.post("/parse-file")
+@router.post('/parse-file')
 async def parse_dataset_file(
     dataset_source : UploadFile = File(...),
     delimiter      : Optional[str] = None,
@@ -68,11 +68,11 @@ async def parse_dataset_file(
     basic_info = get_basic_info(df)
     missing_for_each_column = get_missing_values_for_each_column(df)
 
-    return {'parsedDataset' : parsed_dataset, "columnTypes" : column_types, "basicInfo" : basic_info, "missingValues" : missing_for_each_column}
+    return {'parsedDataset' : parsed_dataset, 'columnTypes' : column_types, 'basicInfo' : basic_info, 'missingValues' : missing_for_each_column}
 
 # # #
 
-@router.put("/modify")
+@router.put('/modify')
 async def modify(stored_dataset : str, modified_data : ModifiedData):
     '''
     Modify rows or colums of passed dataset based on modify actions for each row or column.
@@ -86,7 +86,7 @@ async def modify(stored_dataset : str, modified_data : ModifiedData):
 
 # # #
 
-@router.put("/fill-missing")
+@router.put('/fill-missing')
 async def fill_missing_values(
     stored_dataset           : str, 
     column_fill_method_pairs : List[ColumnFillMethodPair] = Body(...)

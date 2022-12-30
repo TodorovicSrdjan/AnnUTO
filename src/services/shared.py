@@ -14,18 +14,18 @@ import config
 #################################################################
 
 socket_message = {
-    "From":"me",
-    "To":"you",
-    "Message":""
+    'From':'me',
+    'To':'you',
+    'Message':''
 }
  
 ################################################################# 
 
 async def send_msg(dest_id, msg):
     async with websockets.connect(uri = config.BACKEND_WEB_SOCKET_URI) as websocket:
-        socket_message["From"] = await websocket.recv()
-        socket_message["To"] = dest_id
-        socket_message["Message"] = msg
+        socket_message['From'] = await websocket.recv()
+        socket_message['To'] = dest_id
+        socket_message['Message'] = msg
 
         await websocket.send(json.dumps(socket_message))
 
@@ -63,11 +63,11 @@ def figure_to_uri(figure, ext='png'):
 def read_json_data(url):
     json_data = None
 
-    logging.info("url: " + url)
+    logging.info('url: ' + url)
 
     encoded_url = quote(url).replace('http%3A', 'http:')
     
-    logging.info("encoded_url: " + encoded_url)
+    logging.info('encoded_url: ' + encoded_url)
 
     with urllib.request.urlopen(encoded_url) as data:
         json_data = data.read()

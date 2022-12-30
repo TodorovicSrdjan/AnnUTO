@@ -5,7 +5,7 @@ class ProblemType:
 
 ####################################################################
 
-TITLE = "ANN microservice"
+TITLE = 'ANN microservice'
 DESCRIPTION = """
 Microservice for Artifical Neural Network playground
 
@@ -20,7 +20,7 @@ TODO
 
 TAGS_METADATA = [
     {
-        "name": "users",
-        "description": "Operations with users. The **login** logic is also here.",
+        'name': 'users',
+        'description': 'Operations with users. The **login** logic is also here.',
     }
 ]

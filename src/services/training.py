@@ -66,17 +66,17 @@ def encode_and_scale(cont_cols: dict, encoders_cols_dict: {str}, X, y):
         logging.debug(str(encoders_cols_dict[i]['Binary']))
 
         col_transformers[i] = ColumnTransformer([
-            ("scaler", MinMaxScaler(), cont_cols[i]),
-            ("OneHot", map_catcolencoder(CatColEncoder.OneHot), encoders_cols_dict[i]['OneHot']),
-            ("Ordinal", map_catcolencoder(CatColEncoder.Ordinal), encoders_cols_dict[i]['Ordinal']),
-            ("Binary", map_catcolencoder(CatColEncoder.Binary), encoders_cols_dict[i]['Binary'])
+            ('scaler', MinMaxScaler(), cont_cols[i]),
+            ('OneHot', map_catcolencoder(CatColEncoder.OneHot), encoders_cols_dict[i]['OneHot']),
+            ('Ordinal', map_catcolencoder(CatColEncoder.Ordinal), encoders_cols_dict[i]['Ordinal']),
+            ('Binary', map_catcolencoder(CatColEncoder.Binary), encoders_cols_dict[i]['Binary'])
         ])
 
     X_preprocessed = col_transformers['features'].fit_transform(X)
-    logging.debug("X_preprocessed:\n" + str(X_preprocessed))
+    logging.debug('X_preprocessed:\n' + str(X_preprocessed))
     
     y_preprocessed = col_transformers['labels'].fit_transform(y)
-    logging.debug("y_preprocessed:\n", str(y_preprocessed))
+    logging.debug('y_preprocessed:\n', str(y_preprocessed))
 
     return X_preprocessed, y_preprocessed, col_transformers
 
@@ -92,7 +92,7 @@ def create_layer_array(nnlayers: NNLayer, problem_type: str, features: [str], nu
     for layer in nnlayers:
         if layer.units <= 0:
             raise HTTPException(status_code=400, 
-                detail=f"Invalid propery value for layer ({layer.index}). Number of units has to be greater then 0")
+                detail=f'Invalid propery value for layer ({layer.index}). Number of units has to be greater then 0')
         
         layers.append(
             keras.layers.Dense(
@@ -155,14 +155,14 @@ def train_model(
     cont_cols['features'] = list(set([feature.name for feature in features ]) & cont_cols_set)
     cont_cols['labels'] = list(set([label.name for label in labels ]) & cont_cols_set)
 
-    logging.debug("cont_cols:\n" + str(cont_cols))
+    logging.debug('cont_cols:\n' + str(cont_cols))
 
     if labels[0].name in cont_cols['labels']:
         target_encoder = 'None'
     else:    
         target_encoder = labels[0].encoder
 
-    logging.debug("target_encoder: " + target_encoder)
+    logging.debug('target_encoder: ' + target_encoder)
 
     # Get dict with list of cols to encode with specific encoder
     encoders_cols_dict = make_encoder_col_dict(features, labels, cont_cols)
@@ -183,7 +183,7 @@ def train_model(
 
         # current implementation allowes only one output variable
         num_of_classes = unique_vals[labels[0]]
-        logging.debug(f"num_of_classes for column {labels[0]} is {num_of_classes}")
+        logging.debug(f'num_of_classes for column {labels[0]} is {num_of_classes}')
 
     # Separate labels from features
     X = df[features].copy()
@@ -263,7 +263,7 @@ def train_model(
     # input_actual_values = None 
     # pred_actual_values  = None
 
-    # logging.debug("CatColEncoder.NoEncoder.value:\n" + CatColEncoder.NoEncoder.value)
+    # logging.debug('CatColEncoder.NoEncoder.value:\n' + CatColEncoder.NoEncoder.value)
 
     # if target_encoder == CatColEncoder.NoEncoder.value:
     #     used_scaler = cts['labels'].named_transformers_['scaler']
@@ -298,7 +298,7 @@ class CustomCallback(keras.callbacks.Callback):
         epoch += 1 # increase for 1 because it is 0-based
         keys = list(logs.keys())
 
-        epoch_report = {"epoch" : epoch}
+        epoch_report = {'epoch' : epoch}
         new_key = None
         for key in keys:
             if 'true_positives' in key:

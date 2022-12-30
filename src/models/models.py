@@ -44,7 +44,7 @@ class Column(BaseModel):
 # # #
 
 class FillMethod(str, Enum):
-    NoFillMethod        = "None"
+    NoFillMethod        = 'None'
     Mean                = 'mean'
     Median              = 'median'
     MostFrequent        = 'most_freq'

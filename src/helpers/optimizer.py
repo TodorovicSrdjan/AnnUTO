@@ -4,14 +4,14 @@ import tensorflow as tf
 import logging
 
 class Optimizer(str, Enum):
-    Adam     = "Adam"
-    Adadelta = "Adadelta"
-    Adagrad  = "Adagrad"
-    Adamax   = "Adamax"
-    Ftrl     = "Ftrl"
-    Nadam    = "Nadam"
-    RMSprop  = "RMSprop"
-    SGD      = "SGD"
+    Adam     = 'Adam'
+    Adadelta = 'Adadelta'
+    Adagrad  = 'Adagrad'
+    Adamax   = 'Adamax'
+    Ftrl     = 'Ftrl'
+    Nadam    = 'Nadam'
+    RMSprop  = 'RMSprop'
+    SGD      = 'SGD'
 
     def __repr__(self):
         return self.value
@@ -31,5 +31,5 @@ def map_optimizer(optimizer_key, learning_rate):
     try:         
         return optimizer_switcher.get(optimizer_key)
     except (KeyError, AttributeError):
-        logging.exception(f'Key "{optimizer}" is not present in optimizer_switcher dictionary')
-        raise HTTPException(status_code=400, detail=f'Optimizer "{optimizer_key}" is not supported')
+        logging.exception(f"Key '{optimizer}' is not present in optimizer_switcher dictionary")
+        raise HTTPException(status_code=400, detail=f"Optimizer '{optimizer_key}' is not supported")

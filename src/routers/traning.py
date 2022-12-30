@@ -15,7 +15,7 @@ from helpers.loss_func import LossFunction
 
 #################################################################
 
-router = APIRouter(prefix="/training")
+router = APIRouter(prefix='/training')
 
 REGRESSION_METRICS = [
     Metric.LogCoshError, Metric.MeanAbsoluteError, Metric.MeanAbsolutePercentageError, Metric.MeanSquaredError, 
@@ -31,10 +31,10 @@ REGRESSION_LOSS_FUNCS = [
 
 #################################################################
 
-@router.post("")
+@router.post('')
 async def begin_training(
     client_conn_id   : str = Body(...),
-    stored_dataset   : str = Body("http://localhost:10004/Datasets/129/weight-height.json"),
+    stored_dataset   : str = Body('http://localhost:10004/Datasets/129/weight-height.json'),
     problem_type     : str = Body(ProblemType.REGRESSION),
     layers           : List[NNLayer] = Body(...),
     features         : List[Column] = Body(...),
@@ -51,8 +51,8 @@ async def begin_training(
     if True:
         start = time.time()
 
-        logging.debug(f"Feature list={features};\n Label list={labels};\n Metric list={metrics};\n Layer list: {layers}")
-        logging.debug(f"Loss function={loss_function};\n Optimizer={optimizer};\n Problem type: {problem_type}")
+        logging.debug(f'Feature list={features};\n Label list={labels};\n Metric list={metrics};\n Layer list: {layers}')
+        logging.debug(f'Loss function={loss_function};\n Optimizer={optimizer};\n Problem type: {problem_type}')
 
         problem_is_regression = problem_type == ProblemType.REGRESSION
         problem_is_classification = problem_type == ProblemType.CLASSIFICATION
@@ -84,22 +84,22 @@ async def begin_training(
                 chosen_cols_with_missing = column_name
 
         if has_missing_values:
-            raise HTTPException(status_code=400, detail=f"Chosen columns cannot have missing values. Columns with missing values: {chosen_cols_with_missing}")
+            raise HTTPException(status_code=400, detail=f'Chosen columns cannot have missing values. Columns with missing values: {chosen_cols_with_missing}')
 
         # Validate problem type #
 
         if problem_type not in [ProblemType.CLASSIFICATION, ProblemType.REGRESSION]:
-            raise HTTPException(status_code=400, detail=f"Invalid problem type: {problem_type}")
+            raise HTTPException(status_code=400, detail=f'Invalid problem type: {problem_type}')
 
         # Validate feature and label lists #
 
         for feature in features:
             if feature.name not in dataset_headers:
-                raise HTTPException(status_code=400, detail=f"Invalid feature: {feature.name}")
+                raise HTTPException(status_code=400, detail=f'Invalid feature: {feature.name}')
         
         for label in labels:
             if label.name not in dataset_headers:
-                raise HTTPException(status_code=400, detail=f"Invalid label: {label.name}")
+                raise HTTPException(status_code=400, detail=f'Invalid label: {label.name}')
 
         # Validate metric list #
 
@@ -133,7 +133,7 @@ async def begin_training(
         # Validate layer list #
 
         if len(layers) < 2:
-            raise HTTPException(status_code=400, detail=f"Neural network must have at least 2 layers, input and output layer")
+            raise HTTPException(status_code=400, detail=f'Neural network must have at least 2 layers, input and output layer')
 
         # begin training #
         
@@ -159,6 +159,6 @@ async def begin_training(
 
         end = time.time()
 
-        logging.info("Elapsed time: {:.4f}s".format(end-start))
+        logging.info('Elapsed time: {:.4f}s'.format(end-start))
 
-        return {'test_metrics' : metrics_on_testing_set} # { "true-pred" : [f"{left} | {right}" for left,right in zip(true,pred) ] }
+        return {'test_metrics' : metrics_on_testing_set} # { 'true-pred' : [f'{left} | {right}' for left,right in zip(true,pred) ] }
