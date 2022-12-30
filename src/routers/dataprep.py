@@ -23,7 +23,6 @@ async def get_parsed_dataset(
     ):
     '''
     Parse remote (file whose url is provided) **dataset_source** to internal format (json).
-
     '''
 
     df, column_types   = parse_dataset(
@@ -54,8 +53,8 @@ async def parse_dataset_file(
     ):
     '''
     Parse uploaded **dataset_source** to internal format (json).
-
     '''
+
     df, column_types  = parse_dataset(
         dataset_source,
         delimiter = delimiter, 
