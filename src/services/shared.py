@@ -66,6 +66,9 @@ def read_json_data(url):
     logging.info('url: ' + url)
 
     encoded_url = quote(url).replace('http%3A', 'http:')
+
+    if not encoded_url.startswith('http'):
+        encoded_url = 'http://' + encoded_url
     
     logging.info('encoded_url: ' + encoded_url)
 
