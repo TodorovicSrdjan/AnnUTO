@@ -13,37 +13,13 @@ import config
 
 #################################################################
 
-LOGGER = logging.getLogger('uvicorn.error')
-
 socket_message = {
     "From":"me",
     "To":"you",
     "Message":""
 }
  
-#################################################################
-
-def log(output, title='', use_print=False, prefix=config.PRINT_PREFIX, ignore_env=False):
-    '''
-    Print passed object. If the object is a string instance then content of variable PRINT_PREFIX is appended and
-    crafted string is printed. Otherwise, 
-
-    **By default, `print` is used as log function in development environment**
-    '''
-
-    logger = LOGGER.info
-    
-    if use_print:
-        logger = print
-
-    if ignore_env or not config.ENVIRONMENT == 'production':
-        logger(title)
-        
-        if isinstance(output, str):
-            logger(prefix + output)
-        else:
-            logger(output)
- 
+################################################################# 
 
 async def send_msg(dest_id, msg):
     async with websockets.connect(uri = config.BACKEND_WEB_SOCKET_URI) as websocket:
@@ -87,11 +63,11 @@ def figure_to_uri(figure, ext='png'):
 def read_json_data(url):
     json_data = None
 
-    log(url, "url=")
+    logging.info("url: " + url)
 
     encoded_url = quote(url).replace('http%3A', 'http:')
     
-    log(encoded_url, "encoded_url: ")
+    logging.info("encoded_url: " + encoded_url)
 
     with urllib.request.urlopen(encoded_url) as data:
         json_data = data.read()

@@ -8,7 +8,7 @@ from constants import ProblemType
 from models.models import NNLayer, Column
 from services.training import train_model
 from services.dataprep import get_missing_values_for_each_column
-from services.shared import log, read_json_data
+from services.shared import read_json_data
 from helpers.metric import Metric
 from helpers.optimizer import Optimizer
 from helpers.loss_func import LossFunction
@@ -51,8 +51,8 @@ async def begin_training(
     if True:
         start = time.time()
 
-        log(f"Feature list={features};\n Label list={labels};\n Metric list={metrics};\n Layer list: {layers}")
-        log(f"Loss function={loss_function};\n Optimizer={optimizer};\n Problem type: {problem_type}")
+        logging.debug(f"Feature list={features};\n Label list={labels};\n Metric list={metrics};\n Layer list: {layers}")
+        logging.debug(f"Loss function={loss_function};\n Optimizer={optimizer};\n Problem type: {problem_type}")
 
         problem_is_regression = problem_type == ProblemType.REGRESSION
         problem_is_classification = problem_type == ProblemType.CLASSIFICATION
@@ -159,6 +159,6 @@ async def begin_training(
 
         end = time.time()
 
-        log("Elapsed time: {:.4f}s".format(end-start))
+        logging.info("Elapsed time: {:.4f}s".format(end-start))
 
         return {'test_metrics' : metrics_on_testing_set} # { "true-pred" : [f"{left} | {right}" for left,right in zip(true,pred) ] }

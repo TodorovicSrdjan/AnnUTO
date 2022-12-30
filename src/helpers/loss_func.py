@@ -1,6 +1,8 @@
 from enum import Enum
 import tensorflow as tf
 
+import logging
+
 class LossFunction(str, Enum):
     BinaryCrossentropy            = "BinaryCrossentropy"
     BinaryFocalCrossentropy       = "BinaryFocalCrossentropy"
@@ -43,5 +45,5 @@ def map_loss_function(loss_func):
     try:         
         return loss_func_switcher.get(loss_func)
     except (KeyError, AttributeError):
-        log(f'Key "{loss_func}" is not present in loss_func_switcher dictionary')
+        logging.exception(f'Key "{loss_func}" is not present in loss_func_switcher dictionary')
         raise HTTPException(status_code=400, detail=f'Loss function "{loss_func}" is not supported')

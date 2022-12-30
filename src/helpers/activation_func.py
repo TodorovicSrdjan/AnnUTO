@@ -1,6 +1,8 @@
 from enum import Enum
 import tensorflow as tf
 
+import logging
+
 class ActivationFunction(str, Enum):
     #NoActivationfunction = None
     Elu                  = "Elu"
@@ -40,5 +42,5 @@ def map_activation_function(activation_func):
     try:         
         return activation_func_switcher.get(activation_func)
     except (KeyError, AttributeError):
-        log(f'Key "{activation_func}" is not present in activation_func_switcher dictionary')
+        logging.exception(f'Key "{activation_func}" is not present in activation_func_switcher dictionary')
         raise HTTPException(status_code=400, detail=f'Activation function "{activation_func}" is not supported')

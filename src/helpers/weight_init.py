@@ -1,6 +1,8 @@
 from enum import Enum
 import tensorflow as tf
 
+import logging
+
 class WeightInitializer(str, Enum):
     Constant        = "Constant",
     GlorotNormal    = "GlorotNormal",
@@ -41,5 +43,5 @@ def map_weight_init(weight_init):
     try:         
         return weight_init_switcher.get(weight_init)
     except (KeyError, AttributeError):
-        log(f'Key "{weight_init}" is not present in weight_init_switcher dictionary')
+        logging.exception(f'Key "{weight_init}" is not present in weight_init_switcher dictionary')
         raise HTTPException(status_code=400, detail=f'Optimizer "{weight_init}" is not supported')

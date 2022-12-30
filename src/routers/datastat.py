@@ -3,7 +3,7 @@ from fastapi import APIRouter
 from pydantic import AnyUrl, AnyHttpUrl
 
 from services.datastat import get_corr_matrix, get_stat_indicators
-from services.shared import read_json_data, log
+from services.shared import read_json_data
 
 
 #################################################################

@@ -2,6 +2,7 @@ import json
 from fastapi import HTTPException
 import numpy as np
 import pandas as pd
+import logging
 
 from pydantic import AnyHttpUrl
 from typing import List
@@ -9,7 +10,6 @@ from starlette.datastructures import UploadFile
 
 from models import models
 from models.models import FillMethod, ModifiedData, ColumnFillMethodPair
-from services.shared import log
 
 #################################################################
 
@@ -40,7 +40,7 @@ def parse_dataset(
     fname = fname.lower()
 
     if( fname.endswith('.csv') ):
-        log("Given dataset appears to be .csv file")
+        logging.info("Given dataset appears to be .csv file")
 
         if is_file:
             dataset_source = dataset_source.file
@@ -62,7 +62,7 @@ def parse_dataset(
         #df = df.fillna(np.NaN) # TODO check
         df = df.replace(np.nan, None)
 
-        log('Parsing completed.')
+        logging.info('Parsing completed.')
 
     return df, colTypesList
 

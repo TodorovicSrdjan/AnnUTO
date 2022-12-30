@@ -1,6 +1,8 @@
 from enum import Enum
 import tensorflow as tf
 
+import logging
+
 class Metric(str, Enum):
     # AUC
     Accuracy                      = "accuracy"
@@ -92,5 +94,5 @@ def map_metrics(metrics):
 
         return mapped_metrics
     except (KeyError, AttributeError):
-        log(f'Key "{metric}" is not present in metric_switcher dictionary')
+        logging.exception(f'Key "{metric}" is not present in metric_switcher dictionary')
         raise HTTPException(status_code=400, detail=f'Metric "{metric}" is not supported')

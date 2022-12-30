@@ -1,6 +1,8 @@
 from enum import Enum
 import tensorflow as tf
 
+import logging
+
 class Optimizer(str, Enum):
     Adam     = "Adam"
     Adadelta = "Adadelta"
@@ -29,5 +31,5 @@ def map_optimizer(optimizer_key, learning_rate):
     try:         
         return optimizer_switcher.get(optimizer_key)
     except (KeyError, AttributeError):
-        log(f'Key "{optimizer}" is not present in optimizer_switcher dictionary')
+        logging.exception(f'Key "{optimizer}" is not present in optimizer_switcher dictionary')
         raise HTTPException(status_code=400, detail=f'Optimizer "{optimizer_key}" is not supported')

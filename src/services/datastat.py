@@ -2,8 +2,9 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import logging
 
-from services.shared import figure_to_uri, log
+from services.shared import figure_to_uri
 
 #################################################################
 
@@ -17,7 +18,7 @@ def get_stat_indicators(df):
     #columns with numeric values
     continuous = df.select_dtypes(include='number')
 
-    log(continuous, "continuous: ")
+    logging.debug("continuous:\n" + str(continuous))
 
     if len(continuous.columns) > 0:
         continuous_described = continuous.describe().T.to_dict('split')
@@ -31,7 +32,7 @@ def get_stat_indicators(df):
     else:
         continuous_described = []
 
-    log(continuous_described, "continuous_described: ")
+    logging.debug("continuous_described:\n" + str(continuous_described))
 
     #columns with non-numeric values
     categorical = df.select_dtypes(exclude='number')
@@ -45,7 +46,7 @@ def get_stat_indicators(df):
     else:
         categorical_described = []
     
-    log(categorical_described, "categorical_described: ")
+    logging.debug("categorical_described:\n" + str(categorical_described))
 
     stat_indicators = {}
 

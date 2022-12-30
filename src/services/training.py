@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import tensorflow as tf
+import logging
 
 from tensorflow import keras
 from fastapi import HTTPException
@@ -11,7 +12,7 @@ from sklearn.model_selection import train_test_split
 import config
 from constants import ProblemType
 from models.models import NNLayer, Column
-from services.shared import log, send_msg, run_async
+from services.shared import send_msg, run_async
 from services.datastat import get_stat_indicators
 from helpers.weight_init import map_weight_init
 from helpers.metric import map_metrics, Metric
@@ -47,7 +48,7 @@ def make_encoder_col_dict(features: Column, labels: Column, cont_cols: dict):
 
 def encode_and_scale(cont_cols: dict, encoders_cols_dict: {str}, X, y):
     col_transformers = {}
-    log(encoders_cols_dict, 'encoders_cols_dict')
+    logging.info('encoders_cols_dict: ' + str(encoders_cols_dict))
 
     for i in ['features', 'labels']:
         if not 'OneHot' in encoders_cols_dict[i]:
@@ -59,10 +60,10 @@ def encode_and_scale(cont_cols: dict, encoders_cols_dict: {str}, X, y):
         if not 'Binary' in encoders_cols_dict[i]:
             encoders_cols_dict[i]['Binary'] = []
 
-        log(i)
-        log(encoders_cols_dict[i]['OneHot'])
-        log(encoders_cols_dict[i]['Ordinal'])
-        log(encoders_cols_dict[i]['Binary'])
+        logging.debug('current key: ' + i)
+        logging.debug(str(encoders_cols_dict[i]['OneHot']))
+        logging.debug(str(encoders_cols_dict[i]['Ordinal']))
+        logging.debug(str(encoders_cols_dict[i]['Binary']))
 
         col_transformers[i] = ColumnTransformer([
             ("scaler", MinMaxScaler(), cont_cols[i]),
@@ -72,10 +73,10 @@ def encode_and_scale(cont_cols: dict, encoders_cols_dict: {str}, X, y):
         ])
 
     X_preprocessed = col_transformers['features'].fit_transform(X)
-    log(X_preprocessed, "X_preprocessed")
+    logging.debug("X_preprocessed:\n" + str(X_preprocessed))
     
     y_preprocessed = col_transformers['labels'].fit_transform(y)
-    log(y_preprocessed, "y_preprocessed")
+    logging.debug("y_preprocessed:\n", str(y_preprocessed))
 
     return X_preprocessed, y_preprocessed, col_transformers
 
@@ -114,7 +115,7 @@ def create_layer_array(nnlayers: NNLayer, problem_type: str, features: [str], nu
             output_layer_activation_func = ActivationFunction.Softmax
 
 
-    log(f'Output layer: af={output_layer_activation_func}; unites: {output_units};')
+    logging.debug(f'Output layer: af={output_layer_activation_func}; unites: {output_units};')
 
     layers.append(
         keras.layers.Dense(
@@ -147,25 +148,25 @@ def train_model(
     client_conn_id  : str
     ):
     
-    log(features, 'features: ')
-    log(labels, "labels")
+    logging.info('features: ' + str(features))
+    logging.info('labels: ' + str(labels))
 
     cont_cols = {}
     cont_cols['features'] = list(set([feature.name for feature in features ]) & cont_cols_set)
     cont_cols['labels'] = list(set([label.name for label in labels ]) & cont_cols_set)
 
-    log(cont_cols, "cont_cols = ")
+    logging.debug("cont_cols:\n" + str(cont_cols))
 
     if labels[0].name in cont_cols['labels']:
         target_encoder = 'None'
     else:    
         target_encoder = labels[0].encoder
 
-    log(target_encoder, "target_encoder: ")
+    logging.debug("target_encoder: " + target_encoder)
 
     # Get dict with list of cols to encode with specific encoder
     encoders_cols_dict = make_encoder_col_dict(features, labels, cont_cols)
-    log(encoders_cols_dict, 'encoders_cols_dict')
+    logging.debug('encoders_cols_dict:\n' + str(encoders_cols_dict))
 
     # Make a list of strings from Column lists #
     
@@ -182,30 +183,30 @@ def train_model(
 
         # current implementation allowes only one output variable
         num_of_classes = unique_vals[labels[0]]
-        log(f"num_of_classes for column {labels[0]} is {num_of_classes}")
+        logging.debug(f"num_of_classes for column {labels[0]} is {num_of_classes}")
 
     # Separate labels from features
     X = df[features].copy()
     y = df[labels].copy()
     
-    log(X, 'X')
-    log(y, 'y')
+    logging.debug('X:\n' + str(X))
+    logging.debug('y:\n' + str(y))
 
     # Scale (normalize) numerical and encode categorical data
     X_preprocessed, y_preprocessed, cts = encode_and_scale(cont_cols, encoders_cols_dict, X, y)
 
-    log(X_preprocessed, 'X_preprocessed')
-    log(X_preprocessed[0].shape)
+    logging.debug('X_preprocessed:\n' + str(X_preprocessed))
+    logging.debug(str(X_preprocessed[0].shape))
 
-    log(y_preprocessed, 'y_preprocessed')
+    logging.debug('y_preprocessed:\n' + str(y_preprocessed))
 
     # Split dataset
     X_train, X_test, y_train, y_test = train_test_split(X_preprocessed, y_preprocessed, test_size=test_size)
 
-    log(X_train, 'X_train')
-    log(y_train, 'y_train')
-    log(X_test, 'X_test')
-    log(y_test, 'y_test')
+    logging.debug('X_train:\n' + str(X_train))
+    logging.debug('y_train:\n' + str(y_train))
+    logging.debug('X_test:\n' + str(X_test))
+    logging.debug('y_test:\n' + str(y_test))
     
     # Make a model #
     
@@ -246,7 +247,7 @@ def train_model(
 
     y_pred = model.predict(X_train)
 
-    log(y_pred, 'y_pred')
+    logging.debug('y_pred:\n' + str(y_pred))
 
     # Evaluate model #
 
@@ -262,7 +263,7 @@ def train_model(
     # input_actual_values = None 
     # pred_actual_values  = None
 
-    # log(CatColEncoder.NoEncoder.value, "CatColEncoder.NoEncoder.value: ")
+    # logging.debug("CatColEncoder.NoEncoder.value:\n" + CatColEncoder.NoEncoder.value)
 
     # if target_encoder == CatColEncoder.NoEncoder.value:
     #     used_scaler = cts['labels'].named_transformers_['scaler']
@@ -278,7 +279,7 @@ def train_model(
 
     # Testing set metrics
 
-    log(testing_set_metrics, 'Testing score: ')
+    logging.debug('Testing score:\n' + str(testing_set_metrics))
 
     return testing_set_metrics
     #return input_actual_values.ravel(), pred_actual_values.ravel()
