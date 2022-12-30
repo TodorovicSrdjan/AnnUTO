@@ -4,34 +4,14 @@ import logging
 from fastapi import FastAPI
 
 import config
+import constants
 from routers import dataprep, datastat, traning
 
 #################################################################
 
-title = "ANN microservice"
-
-description = """
-Microservice for Artifical Neural Network playground
-
-## Data Preparation
-
-TODO
-
-## Training
-
-TODO
-"""
-
-tags_metadata = [
-    {
-        "name": "users",
-        "description": "Operations with users. The **login** logic is also here.",
-    }
-]
-
 app = FastAPI(#__name__, 
-    title=title,
-    description=description
+    title=constants.TITLE,
+    description=constants.DESCRIPTION
     )
 
 #################################################################
